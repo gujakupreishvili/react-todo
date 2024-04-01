@@ -3,7 +3,6 @@ import  React, {useState}from "react"
 export default function  Input(){
   const [todo, setTodo] = useState([]);
   const [task, setTask] = useState("");
-  const [check,setchek] = useState(false);
 
   const handleEnterKeyPress = (event) => {
     if (event.key === "Enter" && task.trim()===""){
@@ -24,6 +23,18 @@ export default function  Input(){
     localStorage.setItem("todo",JSON.stringify(todo))
     setTask("");
   };
+  const checkTodo = () =>{
+    const newTask={id: Date.now(), task: input, isCompleted: false}
+    setTodo(todo.concat(newTask))
+    setTask("")
+  }
+  const toogleCheckbox = () =>{
+    setTodo(
+      todo.map((todo) =>
+      todo.id === id ? { ...todo,isCompleted : !todo.isCompleted}: todo
+      )
+    )
+  }
   
   const remove =(todo) =>{
     if(!check)
@@ -58,8 +69,8 @@ export default function  Input(){
             type="checkbox"
             id={`checkbox-input-${index}`}
             className="custom-checkbox"
-            checked={check}
-            onChange={()=>setchek(!check)}
+            checked={todo.isCompleted}
+            onChange={() => toogleCheckbox(todo.id)}
           />
           <label htmlFor={`checkbox-input-${index}`}></label>
           <p className={check?"line": "nonne"}>{item}</p>
