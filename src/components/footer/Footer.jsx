@@ -1,7 +1,7 @@
 export default function Footer(){
   return (
     <>
-    <section class="section">
+    <section className="section">
       <p className="all-section">All</p>
       <p className="active-section">Active</p>
       <p className="complete-section">Completed</p>

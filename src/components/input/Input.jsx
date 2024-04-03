@@ -1,8 +1,10 @@
 import  React, {useState}from "react"
+import Delete from "../../assets/reject.png"
 
 export default function  Input(){
   const [todo, setTodo] = useState([]);
   const [task, setTask] = useState("");
+  const [check,setchek] = useState(false);
 
   const handleEnterKeyPress = (event) => {
     if (event.key === "Enter" && task.trim()===""){
@@ -23,25 +25,13 @@ export default function  Input(){
     localStorage.setItem("todo",JSON.stringify(todo))
     setTask("");
   };
-  const checkTodo = () =>{
-    const newTask={id: Date.now(), task: input, isCompleted: false}
-    setTodo(todo.concat(newTask))
-    setTask("")
-  }
-  const toogleCheckbox = () =>{
-    setTodo(
-      todo.map((todo) =>
-      todo.id === id ? { ...todo,isCompleted : !todo.isCompleted}: todo
-      )
-    )
-  }
-  
+
   const remove =(todo) =>{
     if(!check)
     return alert ('oops something wrong...' )
     setTodo(prev => prev.filter((res) => res !== todo))
   }
-  
+
   return (
     <>
     <form action="" className="input-form">
@@ -49,7 +39,7 @@ export default function  Input(){
         type="checkbox"
         id="checkbox-input"
         className="custom-checkbox"
-        
+
       />
       <label htmlFor="checkbox-input" />
       <input
@@ -61,7 +51,7 @@ export default function  Input(){
         className="text"
       />
     </form>
-    <div className={todo.length > 6 ? "scrollable-container" : ""}>
+    <div className={todo.length > 6 ? "scrollable-container" : "result"}>
     {todo.map((item, index) => (
         <div key={index} className="result-div">
           <div className="check-res">
@@ -69,13 +59,13 @@ export default function  Input(){
             type="checkbox"
             id={`checkbox-input-${index}`}
             className="custom-checkbox"
-            checked={todo.isCompleted}
-            onChange={() => toogleCheckbox(todo.id)}
+            checked={check}
+            onChange={()=>setchek(!check)}
           />
           <label htmlFor={`checkbox-input-${index}`}></label>
           <p className={check?"line": "nonne"}>{item}</p>
           </div>
-        <img src="/src/assets/reject.png" alt=""  onClick={()=> remove(item)}/>  
+        <img src={Delete} alt=""  onClick={()=> remove(item)}/>  
         </div>
       ))}
     </div>
@@ -89,6 +79,6 @@ export default function  Input(){
         </div>
       </div>
     </>
-  
+
   );
 }
